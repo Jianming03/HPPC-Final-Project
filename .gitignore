@@ -7,9 +7,7 @@ src/mpi_analytics
 src/*.exe
 src/*.o
 
-# Generated graphs & benchmark results
-results/*.png
-results/benchmark.csv
+# Compiled binaries only — results are tracked intentionally
 
 # Python cache
 __pycache__/
