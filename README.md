@@ -4,7 +4,7 @@
 
 Cloud-based HPC benchmarking project that processes retail transaction datasets
 using **MPI + OpenMP** hybrid parallelism. Compares serial vs parallel execution
-time, speedup, and efficiency on an Azure Ubuntu VM.
+time, speedup, and efficiency on a **Google Cloud Platform (GCP) Ubuntu VM**.
 
 ## Project Structure
 
@@ -29,7 +29,7 @@ HPPC Project/
 
 ### System
 
-- Ubuntu 20.04+ (WSL or Azure VM)
+- Ubuntu 20.04+ (GCP VM)
 - GCC with OpenMP support
 - MPICH or OpenMPI
 
@@ -120,17 +120,9 @@ Electronics,Fashion,Groceries,Johor,KL,Penang,Sabah,Sarawak,
 Cash,Card,eWallet,Laptop,Phone,Shoes
 ```
 
-**Clear benchmark.csv before a fresh benchmark run:**
-
-```bash
-rm -f results/benchmark.csv
-```
-
 ## Full Benchmark Script
 
 ```bash
-rm -f results/benchmark.csv
-
 # Serial
 ./src/serial_analytics
 
@@ -144,14 +136,33 @@ mpirun -np 8 ./src/mpi_analytics
 python3 analysis/graph.py
 ```
 
-## Azure Deployment
+## GCP Deployment
 
-1. Create an Ubuntu VM on Azure (Standard_D8s_v3 recommended for 8 vCPUs)
-2. SSH into the VM
-3. Install dependencies (see above)
-4. Upload the project: `scp -r "HPPC Project" user@<vm-ip>:~/`
-5. Generate dataset, compile, and run as above
-6. Download results: `scp user@<vm-ip>:~/HPPC\ Project/results/* ./results/`
+1. Go to [console.cloud.google.com](https://console.cloud.google.com) and create a new project
+2. Navigate to **Compute Engine** → **VM Instances** → **Create Instance**
+3. Configure the VM:
+   - **Machine type**: `c2-standard-8` (8 vCPUs, 32 GB RAM) or `n2-standard-8`
+   - **Boot disk**: Ubuntu 22.04 LTS
+   - **Region**: closest to you (e.g. `asia-southeast1` for Malaysia)
+4. Enable **HTTP/HTTPS traffic** under Firewall if needed
+5. SSH into the VM directly from the GCP Console or via terminal:
+   ```bash
+   gcloud compute ssh <INSTANCE_NAME> --zone=<ZONE>
+   ```
+6. Install dependencies (see above)
+7. Clone the project:
+   ```bash
+   git clone https://github.com/Jianming03/HPPC-Final-Project.git
+   cd HPPC-Final-Project
+   ```
+8. Generate dataset, compile, and run benchmarks as above
+9. Download results to your local machine:
+   ```bash
+   gcloud compute scp <INSTANCE_NAME>:~/HPPC-Final-Project/results/* ./results/ --zone=<ZONE>
+   ```
+
+> **Stop the VM when done** to avoid unnecessary charges:
+> GCP Console → VM Instances → **Stop**, or run `sudo shutdown now` on the VM.
 
 ## Analytics Computed
 
