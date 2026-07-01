@@ -1,0 +1,24 @@
+# Generated dataset (large file, regenerate with dataset_generator.py)
+data/dataset.csv
+
+# Compiled binaries
+src/serial_analytics
+src/mpi_analytics
+src/*.exe
+src/*.o
+
+# Generated graphs & benchmark results
+results/*.png
+results/benchmark.csv
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
