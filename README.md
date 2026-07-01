@@ -67,10 +67,10 @@ Edit the `generate(1000000)` call in `dataset_generator.py` to change size
 
 ```bash
 # Serial
-gcc -O2 -o src/serial_analytics src/serial_analytics.c
+gcc -o src/serial_analytics src/serial_analytics.c
 
 # MPI + OpenMP
-mpicc -O2 -fopenmp -o src/mpi_analytics src/mpi_analytics.c
+mpicc -fopenmp -o src/mpi_analytics src/mpi_analytics.c
 ```
 
 ### 3. Run Serial Benchmark
